@@ -12,7 +12,8 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        $notes = Note::all();
+        return view('notes.index', compact('notes'));
     }
 
     /**
@@ -20,7 +21,7 @@ class NoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('notes.create');
     }
 
     /**
@@ -28,7 +29,13 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        Note::create($validatedData);
+        return redirect()->route('notes.index')->with('success', 'Not başarılı bir şekilde oluşturuldu!');
     }
 
     /**
@@ -44,7 +51,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        //
+        return view('notes.edit', compact('note'));
     }
 
     /**
@@ -52,7 +59,13 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string'
+        ]);
+
+        $note->update($validatedData);
+        return redirect()->route('notes.index')->with('success', 'Not başarılı bir şekilde güncellendi!');
     }
 
     /**
@@ -60,6 +73,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        $note->delete();
+        return redirect()->route('notes.index')->with('success', 'Not başarılı bir şekilde silindi!');
     }
 }

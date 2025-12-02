@@ -8,6 +8,7 @@
 <body>
     <main>
         <h1>Notlarım</h1>
+        <br>
     </main>
 </body>
 </html>
